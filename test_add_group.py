@@ -15,32 +15,32 @@ class TestAddGroup(unittest.TestCase):
     def open_home_page(wd):
         wd.get("http://localhost/addressbook/")
 
-    def login(self, wd):
+    def login(self, wd, username, password):
         wd.find_element(By.NAME, "user").click()
         wd.find_element(By.NAME, "user").clear()
-        wd.find_element(By.NAME, "user").send_keys("admin")
+        wd.find_element(By.NAME, "user").send_keys(username)
         wd.find_element(By.NAME, "pass").click()
         wd.find_element(By.NAME, "pass").clear()
-        wd.find_element(By.NAME, "pass").send_keys("secret")
+        wd.find_element(By.NAME, "pass").send_keys(password)
         wd.find_element(By.ID, "LoginForm").submit()
 
     def open_groups_page(self, wd):
         wd.find_element(By.LINK_TEXT, "groups").click()
 
-    def create_group(self, wd):
+    def create_group(self, wd, group_name, group_header, group_footer):
         # init group creation
         wd.find_element(By.NAME, "new").click()
         wd.find_element(By.ID, "content").click()
         # fill group form
         wd.find_element(By.NAME, "group_name").click()
         wd.find_element(By.NAME, "group_name").clear()
-        wd.find_element(By.NAME, "group_name").send_keys("test")
+        wd.find_element(By.NAME, "group_name").send_keys(group_name)
         wd.find_element(By.NAME, "group_header").click()
         wd.find_element(By.NAME, "group_header").clear()
-        wd.find_element(By.NAME, "group_header").send_keys("1")
+        wd.find_element(By.NAME, "group_header").send_keys(group_header)
         wd.find_element(By.NAME, "group_footer").click()
         wd.find_element(By.NAME, "group_footer").clear()
-        wd.find_element(By.NAME, "group_footer").send_keys("1")
+        wd.find_element(By.NAME, "group_footer").send_keys(group_footer)
         # submit group creation
         wd.find_element(By.NAME, "submit").click()
 
@@ -55,9 +55,9 @@ class TestAddGroup(unittest.TestCase):
     def test_add_group(self):
         wd = self.wd
         self.open_home_page(wd)
-        self.login(wd)
+        self.login(wd, "admin", "secret")
         self.open_groups_page(wd)
-        self.create_group(wd)
+        self.create_group(wd, "test", "1", "1")
         self.return_to_groups_page(wd)
         self.logout(wd)
 
